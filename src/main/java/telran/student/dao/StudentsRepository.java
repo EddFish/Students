@@ -2,7 +2,7 @@ package telran.student.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,20 +39,20 @@ public class StudentsRepository implements IStudents {
 
 	@Override
 	public Iterable<Student> getAllStudents() {
-		Query query = em.createQuery("select s from Student s");
+		TypedQuery<Student> query = em.createQuery("select s from Student s",Student.class);
 		return query.getResultList();
 	}
 
 	@Override
 	public Iterable<Student> getStudentsByName(String name) {
-		Query query = em.createQuery("select s from Student s where s.name=?1");
+		TypedQuery<Student> query = em.createQuery("select s from Student s where s.name=?1",Student.class);
 		query.setParameter(1, name);
 		return query.getResultList();
 	}
 
 	@Override
 	public Iterable<Student> getStudentsByRoom(int min, int max) {
-		Query query = em.createQuery("select s from Student s where s.room between ?1 and ?2");
+		TypedQuery<Student> query = em.createQuery("select s from Student s where s.room between ?1 and ?2",Student.class);
 		query.setParameter(1, min);
 		query.setParameter(2, max);
 		return query.getResultList();
